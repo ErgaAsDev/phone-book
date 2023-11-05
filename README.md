@@ -2,6 +2,10 @@
 
 This is a web application that allows you to manage and view a contact list. It is built using React.js with TypeScript, and it follows mobile-first design principles to create a single-page application (SPA).
 
+## Deployment
+
+https://erga-phone-book.vercel.app/
+
 ## Table of Contents
 
 - [Technical Requirements](#technical-requirements)
