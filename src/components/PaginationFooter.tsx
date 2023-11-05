@@ -1,7 +1,12 @@
-import { FunctionComponent, memo } from "react";
+import React, { FunctionComponent, memo } from "react";
+import { useAppContext } from "../context";
 import { css } from "@emotion/css";
 
 const PaginationFooter: FunctionComponent = memo(() => {
+  const { currentPage, totalPageCount, handlePageChange } = useAppContext();
+
+  const pageNumbers = Array.from({ length: totalPageCount }, (_, i) => i + 1);
+
   return (
     <div
       className={css`
@@ -15,16 +20,21 @@ const PaginationFooter: FunctionComponent = memo(() => {
         font-family: var(--font-open-sans);
       `}
     >
-      <div
-        className={css`
-          position: relative;
-        `}
-      >
-        <span className={css``}>{`Showing `}</span>
-        <b className={css``}>1-10</b>
-        <span className={css``}>{` from `}</span>
-        <b className={css``}>46</b>
-        <span className={css``}> data</span>
+      <div>
+        {pageNumbers.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            style={{
+              marginRight: "5px",
+              color: page === currentPage ? "green" : "black",
+              cursor: "pointer",
+              border: page === currentPage ? "2px green solid" : "",
+            }}
+          >
+            {page}
+          </button>
+        ))}
       </div>
     </div>
   );

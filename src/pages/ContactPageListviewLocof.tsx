@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import Navbar from "../components/Navbar";
 import MainContainer from "../components/MainContainer";
 import { css } from "@emotion/css";
+import { useAppContext } from "../context";
 
 const ContactPageListviewLocof: FunctionComponent = () => {
   return (
@@ -11,7 +12,7 @@ const ContactPageListviewLocof: FunctionComponent = () => {
         background-color: #f9f9f9;
         width: 100%;
         height: 1024px;
-        overflow: hidden;
+        // overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

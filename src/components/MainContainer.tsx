@@ -1,13 +1,16 @@
 import { FunctionComponent, memo } from "react";
+import { useAppContext } from "../context";
 import ContentContainer from "./ContentContainer";
 import Sidebar from "./Sidebar";
 import { css } from "@emotion/css";
 
 const MainContainer: FunctionComponent = memo(() => {
+  const { selectedCardIndex, sortedContacts } = useAppContext();
   return (
     <div
       className={css`
         align-self: stretch;
+        height: 100%;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
@@ -19,7 +22,9 @@ const MainContainer: FunctionComponent = memo(() => {
       `}
     >
       <ContentContainer />
-      <Sidebar />
+      {selectedCardIndex !== null && (
+        <Sidebar contact={sortedContacts[selectedCardIndex]} />
+      )}
     </div>
   );
 });

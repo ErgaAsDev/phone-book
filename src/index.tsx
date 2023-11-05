@@ -4,6 +4,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import createGlobalStyle from "./global";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import AppProvider from "./context";
+
+// 1. Set up the Apollo Client
+const client = new ApolloClient({
+  uri: "https://wpe-hiring.tokopedia.net/graphql",
+  cache: new InMemoryCache(),
+});
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -11,7 +19,11 @@ createGlobalStyle();
 
 root.render(
   <BrowserRouter>
-    <App />
+    <ApolloProvider client={client}>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </ApolloProvider>
   </BrowserRouter>
 );
 

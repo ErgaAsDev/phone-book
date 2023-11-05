@@ -1,4 +1,5 @@
 import { FunctionComponent, memo, useEffect } from "react";
+import { useAppContext } from "../context";
 import { css, keyframes } from "@emotion/css";
 
 const animationFadeIn = keyframes`
@@ -10,36 +11,11 @@ const animationFadeIn = keyframes`
     }
   `;
 
-const Sidebar: FunctionComponent = memo(() => {
-  useEffect(() => {
-    const scrollAnimElements = document.querySelectorAll(
-      "[data-animate-on-scroll]"
-    );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting || entry.intersectionRatio > 0) {
-            const targetElement = entry.target;
-            targetElement.classList.add("animate");
-            observer.unobserve(targetElement);
-          }
-        }
-      },
-      {
-        threshold: 0.15,
-      }
-    );
+interface Contact {
+  contact: any;
+}
 
-    for (let i = 0; i < scrollAnimElements.length; i++) {
-      observer.observe(scrollAnimElements[i]);
-    }
-
-    return () => {
-      for (let i = 0; i < scrollAnimElements.length; i++) {
-        observer.unobserve(scrollAnimElements[i]);
-      }
-    };
-  }, []);
+const Sidebar: FunctionComponent<Contact> = memo(({ contact }) => {
   return (
     <div
       className={css`
@@ -83,12 +59,7 @@ const Sidebar: FunctionComponent = memo(() => {
           padding: 0px 0px var(--padding-21xl);
           box-sizing: border-box;
           gap: var(--gap-3xs);
-          opacity: 0;
-          &.animate {
-            animation: 1s ease-in-out 0s 1 normal forwards ${animationFadeIn};
-          }
         `}
-        data-animate-on-scroll
       >
         <div
           className={css`
@@ -112,7 +83,8 @@ const Sidebar: FunctionComponent = memo(() => {
               position: relative;
             `}
           >
-            AM
+            {contact?.first_name[0]?.toUpperCase()}
+            {contact?.last_name[0]?.toUpperCase()}
           </b>
         </div>
         <div
@@ -125,7 +97,7 @@ const Sidebar: FunctionComponent = memo(() => {
             }
           `}
         >
-          Angela Moss
+          {contact?.first_name} {contact?.last_name}
         </div>
         <div
           className={css`
@@ -155,7 +127,7 @@ const Sidebar: FunctionComponent = memo(() => {
               }
             `}
           >
-            +62 81390367895
+            {contact?.phones[0]?.number}
           </div>
         </div>
       </div>

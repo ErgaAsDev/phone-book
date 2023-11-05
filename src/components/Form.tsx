@@ -1,243 +1,129 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState, useEffect } from "react";
 import { css } from "@emotion/css";
+import { useAppContext } from "../context";
+import { ADD_CONTACT } from "../graphql/api";
+import { useMutation } from "@apollo/client";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+} from "@mui/material";
+import { exit } from "process";
 
-type FormType = {
-  onClose?: () => void;
-};
+interface Form {
+  open: boolean;
+  handleClose: () => void;
+}
 
-const Form: FunctionComponent<FormType> = ({ onClose }) => {
+const Form: FunctionComponent = () => {
+  const {
+    openForm,
+    handleCloseForm,
+    form,
+    handleInputChange,
+    handleCreate,
+    editMode,
+    sortedContacts,
+    selectedCardIndex,
+    editForm,
+    handleUpdateContact,
+  } = useAppContext();
+
+  const handleUpdate = () => {
+    const updatedData = {
+      first_name: editForm.firstName,
+      last_name: editForm.lastName,
+    };
+
+    console.log("Updating contact with data:", updatedData);
+
+    if (selectedCardIndex !== null) {
+      console.log("Contact ID:", sortedContacts[selectedCardIndex].id);
+      handleUpdateContact(sortedContacts[selectedCardIndex].id, updatedData);
+    }
+    handleCloseForm();
+  };
+
   return (
-    <div
-      className={css`
-        position: relative;
-        border-radius: 12px;
-        background-color: var(--primary-contrast);
-        box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.03);
-        border: 1px solid #eaeaea;
-        box-sizing: border-box;
-        width: 600px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding: 28px 30.000001907348633px;
-        gap: var(--gap-mid);
-        max-width: 100%;
-        max-height: 100%;
-        overflow: auto;
-        text-align: left;
-        font-size: 22px;
-        color: #434343;
-        font-family: var(--font-cairo);
-      `}
+    <Dialog
+      open={openForm}
+      onClose={handleCloseForm}
+      transitionDuration={{ appear: 0, exit: 0 }}
     >
-      <b
-        className={css`
-          align-self: stretch;
-          position: relative;
-          line-height: 34px;
-          @media screen and (max-width: 1000px) {
-            font-size: var(--font-size-lg);
-          }
-        `}
+      <DialogTitle>{editMode ? "Edit Contact" : "Create Contact"}</DialogTitle>
+      <DialogContent
+        sx={{
+          width: "400px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+        }}
       >
-        Create Contact
-      </b>
-      <div
-        className={css`
-          align-self: stretch;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-start;
-          font-size: var(--font-size-lg);
-          color: var(--color-dimgray);
-          @media screen and (max-width: 420px) {
-            flex-direction: column;
-          }
-        `}
-      >
-        <div
-          className={css`
-            align-self: stretch;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-            gap: var(--gap-xl);
-            min-width: 300px;
-          `}
+        <TextField
+          value={editMode ? editForm.firstName : form.firstName}
+          name="firstName"
+          id="name"
+          label="First Name"
+          type="text"
+          fullWidth
+          variant="standard"
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          value={editMode ? editForm.lastName : form.lastName}
+          name="lastName"
+          id="name"
+          label="Last Name"
+          type="text"
+          fullWidth
+          variant="standard"
+          onChange={handleInputChange}
+          required
+        />
+        <TextField
+          value={editMode ? editForm.phone : form.phone}
+          disabled={editMode}
+          name="phone"
+          id="name"
+          label="Phones"
+          type="tel"
+          fullWidth
+          variant="standard"
+          onChange={handleInputChange}
+          required
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={handleCloseForm}
+          sx={{
+            color: "black",
+            ":hover": { color: "green" },
+          }}
         >
-          <div
-            className={css`
-              align-self: stretch;
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              justify-content: flex-start;
-            `}
-          >
-            <div
-              className={css`
-                align-self: stretch;
-                position: relative;
-                @media screen and (max-width: 1000px) {
-                  font-size: var(--font-size-sm);
-                }
-              `}
-            >
-              First Name
-            </div>
-            <input
-              className={css`
-                border: none;
-                font-family: var(--font-cairo);
-                font-size: var(--font-size-base);
-                background-color: var(--color-whitesmoke-100);
-                align-self: stretch;
-                border-radius: var(--br-7xs);
-                overflow: hidden;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                padding: var(--padding-8xs) var(--padding-xs);
-                &:focus {
-                  outline: none;
-                }
-              `}
-              placeholder="Enter name"
-              type="text"
-            />
-          </div>
-          <div
-            className={css`
-              align-self: stretch;
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              justify-content: flex-start;
-            `}
-          >
-            <div
-              className={css`
-                align-self: stretch;
-                position: relative;
-                @media screen and (max-width: 1000px) {
-                  font-size: var(--font-size-sm);
-                }
-              `}
-            >
-              Last Name
-            </div>
-            <input
-              className={css`
-                border: none;
-                font-family: var(--font-cairo);
-                font-size: var(--font-size-base);
-                background-color: var(--color-whitesmoke-100);
-                align-self: stretch;
-                border-radius: var(--br-7xs);
-                overflow: hidden;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                padding: var(--padding-8xs) var(--padding-xs);
-                &:focus {
-                  outline: none;
-                }
-              `}
-              placeholder="Enter name"
-              type="text"
-            />
-          </div>
-          <div
-            className={css`
-              align-self: stretch;
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              justify-content: flex-start;
-            `}
-          >
-            <div
-              className={css`
-                align-self: stretch;
-                position: relative;
-                @media screen and (max-width: 1000px) {
-                  font-size: var(--font-size-sm);
-                }
-              `}
-            >
-              <span className={css``}>Phone Number</span>
-              <span
-                className={css`
-                  color: #ddd;
-                `}
-              >{` `}</span>
-            </div>
-            <input
-              className={css`
-                border: none;
-                font-family: var(--font-cairo);
-                font-size: var(--font-size-base);
-                background-color: var(--color-whitesmoke-100);
-                align-self: stretch;
-                border-radius: var(--br-7xs);
-                overflow: hidden;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                padding: var(--padding-8xs) var(--padding-xs);
-                outline: none;
-              `}
-              placeholder="Enter phone number"
-              type="text"
-            />
-          </div>
-        </div>
-      </div>
-      <button
-        className={css`
-          cursor: pointer;
-          border: none;
-          padding: var(--padding-8xs) 18px;
-          background-color: var(--primer);
-          border-radius: 4px;
-          overflow: hidden;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          transition: 0.3s;
-          &:hover {
-            background-color: #1e5b6f;
+          Cancel
+        </Button>
+        <Button
+          onClick={editMode ? handleUpdate : handleCreate}
+          variant="contained"
+          disabled={
+            (!editMode && (!form.firstName || !form.lastName || !form.phone)) ||
+            (editMode &&
+              (!editForm.firstName || !editForm.lastName || !editForm.phone))
           }
-          @media screen and (max-width: 1000px) {
-            margin-right: auto;
-          }
-          @media screen and (max-width: 420px) {
-            width: 100% !important;
-          }
-        `}
-        type="submit"
-      >
-        <div
-          className={css`
-            position: relative;
-            font-size: var(--font-size-lg);
-            letter-spacing: 0.46px;
-            font-family: var(--font-cairo);
-            color: var(--primary-contrast);
-            text-align: center;
-          `}
+          sx={{
+            backgroundColor: "#33F81E",
+            ":hover": { backgroundColor: "green" },
+          }}
         >
-          Create
-        </div>
-      </button>
-    </div>
+          {editMode ? "Save" : "Create"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
