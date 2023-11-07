@@ -18,6 +18,11 @@ const Navbar: FunctionComponent = memo(() => {
         font-size: var(--font-size-17xl);
         color: var(--primary-contrast);
         font-family: var(--font-cairo);
+        @media screen and (max-width: 500px) {
+          height: 70px;
+          // padding: var(--padding-12xl) var(--padding-5xl);
+          align-items: center;
+        }
       `}
     >
       <div
@@ -35,6 +40,10 @@ const Navbar: FunctionComponent = memo(() => {
             width: 50px;
             height: 56.7px;
             object-fit: cover;
+            @media screen and (max-width: 500px) {
+              width: 40px;
+              height: 45px;
+            }
           `}
           alt=""
           src="/image-1@2x.png"
@@ -42,6 +51,9 @@ const Navbar: FunctionComponent = memo(() => {
         <b
           className={css`
             position: relative;
+            @media screen and (max-width: 500px) {
+              font-size: 24px;
+            }
           `}
         >
           GoTo
@@ -73,6 +85,10 @@ const Navbar: FunctionComponent = memo(() => {
               background-color: var(--primary-contrast);
               width: 70px;
               height: 70px;
+              @media screen and (max-width: 500px) {
+                width: 50px;
+                height: 50px;
+              }
             `}
           />
           <div

@@ -92,7 +92,7 @@ const HeadContainer: FunctionComponent = memo(() => {
             // width: 155px;
             flex-shrink: 0;
             @media screen and (max-width: 500px) {
-              font-size: 18px;
+              font-size: 24px;
             }
           `}
         >
