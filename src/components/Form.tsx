@@ -56,10 +56,13 @@ const Form: FunctionComponent = () => {
       <DialogTitle>{editMode ? "Edit Contact" : "Create Contact"}</DialogTitle>
       <DialogContent
         sx={{
-          width: "400px",
+          width: "350px",
           display: "flex",
           flexDirection: "column",
           gap: "20px",
+          "@media (min-width: 720px)": {
+            width: "500px",
+          },
         }}
       >
         <TextField

@@ -18,6 +18,9 @@ const ContentContainer: FunctionComponent = memo(() => {
         font-size: var(--font-size-11xl);
         color: var(--black);
         font-family: var(--font-cairo);
+        @media (max-width: 500px) {
+          padding: 0px 4px var(--padding-xs) 4px; // Set the padding to 10px for screens below 500px
+        }
       `}
     >
       <ContactContainer />
