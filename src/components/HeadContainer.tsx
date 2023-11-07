@@ -91,6 +91,9 @@ const HeadContainer: FunctionComponent = memo(() => {
             display: inline-block;
             // width: 155px;
             flex-shrink: 0;
+            @media screen and (max-width: 500px) {
+              font-size: 18px;
+            }
           `}
         >
           Contacts ({contactsToDisplay.length})

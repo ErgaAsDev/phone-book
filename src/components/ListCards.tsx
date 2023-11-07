@@ -59,6 +59,9 @@ const ListCards: FunctionComponent = () => {
               border: 2px solid green;
             }
             border: ${selectedCardIndex === index ? "2px solid green" : ""};
+            @media screen and (max-width: 500px) {
+              gap: 4px;
+            }
           `}
         >
           <div
