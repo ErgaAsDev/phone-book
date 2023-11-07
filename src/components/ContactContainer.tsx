@@ -10,7 +10,7 @@ const ContactContainer: FunctionComponent = memo(() => {
         align-self: stretch;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         justify-content: flex-start;
         padding: var(--padding-xs) var(--padding-xl) 0px 0px;
         gap: var(--gap-21xl);

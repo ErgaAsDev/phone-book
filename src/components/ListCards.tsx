@@ -72,6 +72,9 @@ const ListCards: FunctionComponent = () => {
               justify-content: flex-start;
               padding: 0px 0px 0px var(--padding-5xs);
               gap: var(--gap-sm);
+              @media screen and (max-width: 500px) {
+                gap: 4px;
+              }
             `}
           >
             <Rating
@@ -168,6 +171,10 @@ const ListCards: FunctionComponent = () => {
               color: var(--primary-contrast);
               @media screen and (max-width: 620px) {
                 height: 25px;
+              }
+              @media screen and (max-width: 500px) {
+                gap: 6px;
+                padding-right: 3px;
               }
             `}
           >

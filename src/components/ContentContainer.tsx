@@ -19,7 +19,7 @@ const ContentContainer: FunctionComponent = memo(() => {
         color: var(--black);
         font-family: var(--font-cairo);
         @media (max-width: 500px) {
-          padding: 0px 4px var(--padding-xs) 4px; // Set the padding to 10px for screens below 500px
+          padding: 0px 0px var(--padding-xs) 0px;
         }
       `}
     >
